@@ -5,8 +5,8 @@ var argv = require('minimist')(process.argv.slice(2), {
 	default: {
 	},
 	alias: {
+		'h': 'help',
 		'o': 'outDir',
-		'h': 'help'
 	}
 })
 
