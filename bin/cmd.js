@@ -21,7 +21,7 @@ if (argv.h) {
 
 // use STDIN/STDOUT or open read/write streams
 if (argv._.length) {
-	var sources = argv._.map(function (filename) {
+	var sources = argv._.map(function createReadStreams (filename) {
 		return fs.createReadStream(filename)
 	})
 } else {
