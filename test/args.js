@@ -3,8 +3,24 @@ var test = require('tap').test
 
 var fs = require('fs')
 var spawn = require('child_process').spawn
+var through = require('through2')
 
 var cmd = __dirname + '/../bin/cmd.js'
+
+test('Test help file argument', function (t) {
+    t.plan(1)
+    var str = ''
+    var ps = spawn(process.execPath, [
+        cmd,
+        '-h'
+    ])
+    ps.stdout
+        .pipe(through( function (chunk) {
+            var usageText = chunk.toString()
+            var usageFile = fs.readFileSync(__dirname + '/../bin/usage.txt', 'utf8')
+            t.equal(usageText, usageFile, 'Help argument returns contents of `usage.txt` file')
+        }))
+})
 
 test('Test input and output file arguments', function (t) {
     t.plan(1)
