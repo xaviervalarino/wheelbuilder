@@ -1,12 +1,15 @@
 'use strict'
 
 var fs = require('fs')
+var path = require('path')
+var through = require('through2')
 var argv = require('minimist')(process.argv.slice(2), {
 	default: {
 	},
 	alias: {
 		'h': 'help',
 		'o': 'outDir',
+		'v': 'version'
 	}
 })
 
@@ -17,6 +20,15 @@ if (argv.h) {
 	// need to make sure STDIN is not being used
     return fs.createReadStream(__dirname + '/usage.txt')
 		.pipe(process.stdout)
+}
+
+// show version number
+if (argv.v) {
+	var packageJSON  = path.resolve(__dirname + '/../package.json')
+	return fs.createReadStream(packageJSON)
+		.pipe(through(function getSemver (data) {
+			console.log(JSON.parse(data).version)
+		}))
 }
 
 // use STDIN/STDOUT or open read/write streams
