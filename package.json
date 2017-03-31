@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A streaming static-site generator",
   "scripts": {
-    "test": "tap test/**"
+    "test": "tap test/* --cov"
   },
   "repository": {
     "type": "git",
