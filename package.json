@@ -1,0 +1,26 @@
+{
+  "name": "wheel-builder",
+  "version": "0.0.0",
+  "description": "A streaming static-site generator",
+  "scripts": {
+    "test": "tap test/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Xavier Valarino <xvalarino@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "stream-combiner": "^0.2.2",
+    "tap": "^10.3.0",
+    "through2": "^2.0.3"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
