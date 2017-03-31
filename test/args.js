@@ -6,7 +6,7 @@ var spawn = require('child_process').spawn
 
 var cmd = __dirname + '/../bin/cmd.js'
 
-test('Test command line arguments', function (t) {
+test('Test input and output file arguments', function (t) {
     t.plan(1)
     var input = __dirname + '/fixtures/content/index.md'
     var output = require('os').tmpdir() + '/output.txt'
