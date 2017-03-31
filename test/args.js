@@ -22,6 +22,20 @@ test('Test help file argument', function (t) {
         }))
 })
 
+test('Test version number argument', function (t) {
+    t.plan(1)
+    var ps = spawn(process.execPath, [
+        cmd,
+        '-v'
+    ])
+    ps.stdout
+        .pipe(through( function (chunk) {
+            var ver = chunk.toString().replace('\n', '')
+            var pkg = require(__dirname + '/../package.json')
+            t.equal(ver, pkg.version, 'Version argument returns version number')
+        }))
+})
+
 test('Test input and output file arguments', function (t) {
     t.plan(1)
     var input = __dirname + '/fixtures/content/index.md'
