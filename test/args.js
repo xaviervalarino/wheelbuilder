@@ -7,6 +7,26 @@ var through = require('through2')
 
 var cmd = __dirname + '/../bin/cmd.js'
 
+test('Test error when no inputs are specified', function (t) {
+    t.plan(2)
+    var ps = spawn(process.execPath, [ cmd ],
+        {   // Mock child_process.stdin.isTTY = true
+            stdio: [ process.stdin, 'pipe', 'pipe' ]
+        }
+    )
+    process.stdin
+        .pipe(ps.stdout)
+        .pipe(through( function (chunk, enc, cb) {
+            var msg = chunk.toString()
+            var err = 'No input file(s) specified\n'
+            t.equal(msg, err, 'Show error message when no files are specified')
+        }))
+        ps.on('exit', function (code) {
+            t.equal(code, 1, 'Process exits with error code 1')
+            process.stdin.destroy() // close STDIN to keep test from hanging
+        })
+})
+
 test('Test help file argument', function (t) {
     t.plan(1)
     var str = ''

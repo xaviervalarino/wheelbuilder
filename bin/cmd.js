@@ -3,6 +3,7 @@
 var fs = require('fs')
 var path = require('path')
 var through = require('through2')
+var chalk = require('chalk')
 var argv = require('minimist')(process.argv.slice(2), {
 	string: [
 		'outDir'
@@ -16,6 +17,12 @@ var argv = require('minimist')(process.argv.slice(2), {
 		'v': 'version'
 	}
 })
+
+// no input file or STDIN pipe
+if ( process.stdin.isTTY && !argv._.length ) {
+	console.log(chalk.red('No input file(s) specified'))
+	return process.exit(1)
+}
 
 // show help
 if (argv.h) {
