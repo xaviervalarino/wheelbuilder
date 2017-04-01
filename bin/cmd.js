@@ -4,6 +4,10 @@ var fs = require('fs')
 var path = require('path')
 var through = require('through2')
 var argv = require('minimist')(process.argv.slice(2), {
+	string: [
+		'outDir'
+	],
+	boolean: true,
 	default: {
 	},
 	alias: {
