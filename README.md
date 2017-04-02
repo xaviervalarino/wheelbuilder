@@ -2,7 +2,7 @@
 A streaming static site generator
 
 ## Usage
-```sh
+```
 WHEELBUILDER
 A streaming static site generator
 
