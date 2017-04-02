@@ -31,7 +31,6 @@ test('Test error when no inputs are specified', function (t) {
 
 test('Test help file argument', function (t) {
     t.plan(1)
-    var str = ''
     var ps = spawn(process.execPath, [
         cmd,
         '-h'
@@ -69,11 +68,11 @@ test('Test input and output file arguments', function (t) {
         // __dirname + './fixtures/content.md'
         input
     ])
-    ps.on('close', function (code, signal) {
-        fs.readFile(output, 'utf8', function (err, contents) {
+    ps.on('close', function () {
+        fs.readFile(output, 'utf8', function (err) {
             if (err) throw err
             fs.stat(output, function (_, stats) {
-                t.ok(stats, 'output file exists')
+                t.ok(stats, 'Output file exists')
             })
         })
     })
