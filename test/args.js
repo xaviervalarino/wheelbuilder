@@ -2,10 +2,12 @@
 var test = require('tap').test
 
 var fs = require('fs')
+var path = require('path')
 var spawn = require('child_process').spawn
 var through = require('through2')
 
-var cmd = __dirname + '/../bin/cmd.js'
+var tmp = require('os').tmpdir()
+var cmd = path.join(__dirname, './../bin/cmd.js')
 
 test('Test error when no inputs are specified', function (t) {
     t.plan(2)
@@ -58,8 +60,8 @@ test('Test version number argument', function (t) {
 
 test('Test input and output file arguments', function (t) {
     t.plan(1)
-    var input = __dirname + '/fixtures/content/index.md'
-    var output = require('os').tmpdir() + '/output.txt'
+    var input = path.join(__dirname, './fixtures/content/index.md')
+    var output =  path.join(tmp, 'output.txt')
     // run the CLI
     var ps = spawn(process.execPath, [
         cmd,
