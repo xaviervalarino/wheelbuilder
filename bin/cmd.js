@@ -6,6 +6,7 @@ var through = require('through2')
 var chalk = require('chalk')
 var argv = require('minimist')(process.argv.slice(2), {
 	string: [
+		'_',
 		'out-dir'
 	],
 	boolean: true,
