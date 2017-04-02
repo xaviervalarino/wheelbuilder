@@ -19,6 +19,6 @@ EXAMPLES
 
     wb file.md -t ./templates/ -o ./dest/
 
-    wb 'src/**.md' -t ./templates -o ./dest/
+    wb 'src/**/*.md' -t ./templates -o ./dest/
 
 ```
