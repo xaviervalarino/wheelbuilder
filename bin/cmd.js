@@ -2,7 +2,11 @@
 
 var fs = require('fs')
 var path = require('path')
+
 var through = require('through2')
+var pipeline = require('pumpify')
+var Vinyl = require('vinyl')
+
 var chalk = require('chalk')
 var argv = require('minimist')(process.argv.slice(2), {
 	string: [
@@ -25,6 +29,11 @@ if ( process.stdin.isTTY && !argv._.length ) {
 	return process.exit(1)
 }
 
+if ( !process.stdin.isTTY && argv._.length ) {
+	console.log(chalk.red('Input from both file and STDIN pipe is ambiguous'))
+	return process.exit(1)
+}
+
 // show help
 if (argv.h) {
 	// TODO: show help when no options or files specified?
@@ -43,35 +52,29 @@ if (argv.v) {
 		}))
 }
 
+var Wheelbuilder = require('../')
+var wb = new Wheelbuilder()
+
 // use STDIN/STDOUT or open read/write streams
 if (argv._.length) {
-	var sources = argv._.map(function createReadStreams (filename) {
-		return fs.createReadStream(filename)
-	})
+	var source = wb.src(argv._)
 } else {
-	sources = [ process.stdin ]
+	source = process.stdin
 }
 
 if (argv.o) {
-	// TODO: write file in wb to access input filename
-	// Right now this just writes the output dir as the
-	// filename, which is clearly not how it should work.
-	var destination = fs.createWriteStream(argv.o)
+	var destination = wb.dest(argv.o)
 } else {
-	destination = process.stdout
+	destination = pipeline.obj(
+		through.obj(function (file, enc, cb) {
+			var out = Vinyl.isVinyl(file) ?
+				file.contents.toString() :
+				file.toString()
+			this.push(out)
+			cb()
+		}),
+		process.stdout
+	)
 }
 
-sources.forEach(function (src) {
-	src.pipe(destination)
-})
-
-
-// Possible API for `wheelbuilder` up for consideration
-// ----------------------------------------------------
-// var Wheelbuilder = require('../')
-// var wb = new Wheelbuilder()
-
-// wb.src(sources)
-// 	.pipe(wb.frontMatter())
-// 	.pipe(wb.template(argv.t))
-// 	.pipe(wb.dest(destination))
+source.pipe(destination)
