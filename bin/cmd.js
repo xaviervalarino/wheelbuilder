@@ -6,14 +6,14 @@ var through = require('through2')
 var chalk = require('chalk')
 var argv = require('minimist')(process.argv.slice(2), {
 	string: [
-		'outDir'
+		'out-dir'
 	],
 	boolean: true,
 	default: {
 	},
 	alias: {
 		'h': 'help',
-		'o': 'outDir',
+		'o': 'out-dir',
 		'v': 'version'
 	}
 })

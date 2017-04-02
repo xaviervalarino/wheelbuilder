@@ -6,7 +6,7 @@ SYNOPSIS
 
 OPTIONS
     -h, --help     Show this message
-    -o, --outDir   Directory where files are outputted
+    -o, --out-dir  Directory where files are outputted
     -v, --version  Output version information and exit
 
 EXAMPLES
