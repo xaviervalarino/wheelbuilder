@@ -39,3 +39,15 @@ var wb = new Wheelbuilder()
 
 wb.src('./glob_pattern/**.md').pipe(wb.dest('./destination'))
 ```
+
+### TODO
+- [ ] Publish on NPM registry
+- [ ] Potentially move from Vinyl-fs to just using Node stream API
+- [ ] Create Wheelbuilder API
+    - [X] Create streaming file I/O
+    - [ ] Implement FrontMatter parsing
+    - [ ] Implement Template rendering
+    - [ ] Use consolidate.js for wider template support?
+- [ ] Document writing content files with frontMatter
+- [ ] Parse stringified file objects through STDIN?
+- [ ] Add `watch` option for caching templates (or create companion module)
