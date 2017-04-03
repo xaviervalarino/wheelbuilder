@@ -4,7 +4,10 @@ var test = require('tap').test
 var fs = require('fs')
 var path = require('path')
 var spawn = require('child_process').spawn
+
 var through = require('through2')
+var combiner = require('stream-combiner2')
+var Readable = require('stream').Readable
 
 var tmp = require('os').tmpdir()
 var cmd = path.join(__dirname, './../bin/cmd.js')
@@ -82,20 +85,17 @@ test('Test STDIN and STDOUT', function (t) {
     t.plan(1)
     var string = '# STDIN Streaming test\nTest out STDIN stream\n'
 
-    var Readable = require('stream').Readable
-    var Combiner = require('stream-combiner')
-    var through = require('through2')
-
     var stream = new Readable()
     var ps = spawn(process.execPath, [ cmd ])
-    var combine = new Combiner([ps.stdin, ps.stdout])
+    // `pumpify` module makes test exit early
+    var passthrough = combiner(ps.stdin, ps.stdout)
 
     stream._read = function noop() {/* keep cmd from crashing REPL */}
     stream.push(string)
     stream.push(null)
 
     stream
-        .pipe(combine)
+        .pipe(passthrough)
         .pipe(through( function (chunk, enc, cb) {
             t.equal(chunk.toString(), string, 'Standard output is the same as standard input')
             cb()
