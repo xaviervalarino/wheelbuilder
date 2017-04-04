@@ -13,7 +13,6 @@ var tmp = require('os').tmpdir()
 var cmd = path.join(__dirname, './../bin/cmd.js')
 
 test('Test error when no inputs are specified', function (t) {
-    t.plan(2)
     var ps = spawn(process.execPath, [ cmd ],
         {   // Mock child_process.stdin.isTTY = true
             stdio: [ process.stdin, 'pipe', 'pipe' ]
@@ -21,7 +20,7 @@ test('Test error when no inputs are specified', function (t) {
     )
     process.stdin
         .pipe(ps.stdout)
-        .pipe(through( function (chunk, enc, cb) {
+        .pipe(through( function (chunk) {
             var msg = chunk.toString()
             var err = 'No input file(s) specified\n'
             t.equal(msg, err, 'Show error message when no files are specified')
@@ -29,11 +28,11 @@ test('Test error when no inputs are specified', function (t) {
         ps.on('exit', function (code) {
             t.equal(code, 1, 'Process exits with error code 1')
             process.stdin.destroy() // close STDIN to keep test from hanging
+            t.end()
         })
 })
 
 test('Test help file argument', function (t) {
-    t.plan(1)
     var ps = spawn(process.execPath, [
         cmd,
         '-h'
@@ -43,11 +42,11 @@ test('Test help file argument', function (t) {
             var usageText = chunk.toString()
             var usageFile = fs.readFileSync(__dirname + '/../bin/usage.txt', 'utf8')
             t.equal(usageText, usageFile, 'Help argument returns contents of `usage.txt` file')
+            t.end()
         }))
 })
 
 test('Test version number argument', function (t) {
-    t.plan(1)
     var ps = spawn(process.execPath, [
         cmd,
         '-v'
@@ -57,13 +56,13 @@ test('Test version number argument', function (t) {
             var ver = chunk.toString().replace('\n', '')
             var pkg = require(__dirname + '/../package.json')
             t.equal(ver, pkg.version, 'Version argument returns version number')
+            t.end()
         }))
 })
 
 test('Test input and output file arguments', function (t) {
-    t.plan(1)
     var input = path.join(__dirname, './fixtures/content/index.md')
-    var output =  path.join(tmp, 'output.txt')
+    var output =  path.join(tmp, 'index.md')
     // run the CLI
     var ps = spawn(process.execPath, [
         cmd,
@@ -76,13 +75,13 @@ test('Test input and output file arguments', function (t) {
             if (err) throw err
             fs.stat(output, function (_, stats) {
                 t.ok(stats, 'Output file exists')
+                t.end()
             })
         })
     })
 })
 
 test('Test STDIN and STDOUT', function (t) {
-    t.plan(1)
     var string = '# STDIN Streaming test\nTest out STDIN stream\n'
 
     var stream = new Readable()
@@ -96,8 +95,8 @@ test('Test STDIN and STDOUT', function (t) {
 
     stream
         .pipe(passthrough)
-        .pipe(through( function (chunk, enc, cb) {
+        .pipe(through( function (chunk) {
             t.equal(chunk.toString(), string, 'Standard output is the same as standard input')
-            cb()
+            t.end()
         }))
 })
