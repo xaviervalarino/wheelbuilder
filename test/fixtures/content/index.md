@@ -4,7 +4,7 @@ template: test.pug
 description: A test file
 ---
 # Test header
-Test markdown sintax
+Test markdown syntax
 * one
 * two
 * three
