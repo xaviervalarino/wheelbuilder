@@ -3,11 +3,12 @@ var test = require('tap').test
 
 var fs = require('fs')
 var path = require('path')
-var tmp = require('os').tmpdir()
 
 var Wheelbuilder = require('../')
 var Vinyl = require('vinyl')
 var through = require('through2')
+
+var tmp = require('os').tmpdir()
 
 test('Test Wheelbuilder I/O API', function (t) {
     t.plan(2)
