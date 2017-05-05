@@ -31,7 +31,7 @@ if ( process.stdin.isTTY && !argv._.length ) {
 }
 
 if ( !process.stdin.isTTY && argv._.length ) {
-	console.log(chalk.red('Input from both file and STDIN is ambiguous'))
+	console.log(chalk.red('Input from file and STDIN is ambiguous'))
 	return process.exit(1)
 }
 
