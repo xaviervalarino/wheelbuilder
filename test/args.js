@@ -66,10 +66,12 @@ test('Test input and output file arguments', function (t) {
     // run the CLI
     var ps = spawn(process.execPath, [
         cmd,
-        '-o', output,
+        '-o', tmp,
         // __dirname + './fixtures/content.md'
         input
-    ])
+    ], {   // Mock child_process.stdin.isTTY = true
+        stdio: [ process.stdin, 'pipe', 'pipe' ]
+    })
     ps.on('close', function () {
         fs.readFile(output, 'utf8', function (err) {
             if (err) throw err
