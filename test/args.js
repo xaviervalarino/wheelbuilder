@@ -9,6 +9,8 @@ var through = require('through2')
 var combiner = require('stream-combiner2')
 var Readable = require('stream').Readable
 
+var rimraf = require('rimraf')
+
 var tmp = require('os').tmpdir()
 var cmd = path.join(__dirname, './../bin/cmd.js')
 
@@ -77,7 +79,7 @@ test('Test input and output file arguments', function (t) {
             if (err) throw err
             fs.stat(output, function (_, stats) {
                 t.ok(stats, 'Output file exists')
-                t.end()
+                rimraf(output, t.end )
             })
         })
     })

@@ -3,6 +3,7 @@ var test = require('tap').test
 
 var fs = require('fs')
 var path = require('path')
+var rimraf = require('rimraf')
 
 var Wheelbuilder = require('../')
 var Vinyl = require('vinyl')
@@ -11,7 +12,6 @@ var through = require('through2')
 var tmp = require('os').tmpdir()
 
 test('Test Wheelbuilder I/O API', function (t) {
-    t.plan(2)
     var wb = new Wheelbuilder()
     var input = path.join(__dirname, './fixtures/content/index.md')
     wb.src(input)
@@ -26,5 +26,6 @@ test('Test Wheelbuilder I/O API', function (t) {
             var infile = fs.readFileSync(input, 'utf8')
             var outfile = fs.readFileSync(path.join(tmp, filename), 'utf8')
             t.equal(infile, outfile, 'Output file matches input file')
+            rimraf(outfile, t.end)
         })
 })
