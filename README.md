@@ -15,10 +15,13 @@ OPTIONS
     -v, --version  Output version information and exit
 
 EXAMPLES
-    cat file.md | wb > file.html
+    # Convert markdown file to HTML, stream to standard output
+    wb file.md
 
+    # Specify templates and output to destination directory
     wb file.md -t ./templates/ -o ./dest/
 
+    # Convert multiple markdown files and output to destination
     wb 'src/**/*.md' -t ./templates -o ./dest/
 
 ```
