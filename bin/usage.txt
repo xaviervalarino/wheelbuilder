@@ -5,9 +5,10 @@ SYNOPSIS
     wb [input file]... [options]...
 
 OPTIONS
-    -h, --help     Show this message
-    -o, --out-dir  Directory where files are outputted
-    -v, --version  Output version information and exit
+    -h, --help      Show this message
+    -o, --out-dir   Write files to this directory
+    -t, --templates Use templates in this directory
+    -v, --version   Output version information and exit
 
 EXAMPLES
     cat file.md | wb > file.html
