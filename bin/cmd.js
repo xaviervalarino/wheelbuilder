@@ -24,17 +24,6 @@ var argv = require('minimist')(process.argv.slice(2), {
     }
 })
 
-// no input file or STDIN pipe
-if ( process.stdin.isTTY && !argv._.length ) {
-    console.log(chalk.red('No input file(s) specified'))
-    return process.exit(1)
-}
-
-if ( !process.stdin.isTTY && argv._.length ) {
-    console.log(chalk.red('Input from file and STDIN is ambiguous'))
-    return process.exit(1)
-}
-
 // show help
 if (argv.h) {
     // TODO: show help when no options or files specified?
@@ -51,6 +40,18 @@ if (argv.v) {
         .pipe(through(function getSemver (data) {
             console.log(JSON.parse(data).version)
         }))
+}
+
+// no input file or STDIN pipe
+if ( process.stdin.isTTY && !argv._.length ) {
+    console.log(chalk.red('No input file(s) specified'))
+    return process.exit(1)
+}
+
+// TODO: ambiguous error message?
+if ( !process.stdin.isTTY && argv._.length ) {
+    console.log(chalk.red('Input from file and STDIN is ambiguous'))
+    return process.exit(1)
 }
 
 var Wheelbuilder = require('../')
