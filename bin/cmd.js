@@ -20,17 +20,18 @@ var argv = require('minimist')(process.argv.slice(2), {
     alias: {
         'h': 'help',
         'o': 'out-dir',
+        't': 'templates',
         'v': 'version'
     }
 })
 
 // show help
-if (argv.h) {
-    // TODO: show help when no options or files specified?
-    // i.e., Object.keys(argv).length === 1 && argv._.length === 0
-    // need to make sure STDIN is not being used
-    return fs.createReadStream(__dirname + '/usage.txt')
-        .pipe(process.stdout)
+if (argv._.length === 0 && Object.keys(argv).length === 1 || argv.h) {
+    // TODO: check to make sure STDIN is not being used
+    if ( argv._.length === 0 && argv._ ) {
+        return fs.createReadStream(__dirname + '/usage.txt')
+            .pipe(process.stdout)
+    }
 }
 
 // show version number
