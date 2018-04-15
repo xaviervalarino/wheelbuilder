@@ -55,6 +55,8 @@ if ( !process.stdin.isTTY && argv._.length ) {
     return process.exit(1)
 }
 
+//  ----------------------------------------------------------------------------
+
 var Wheelbuilder = require('../')
 var wb = new Wheelbuilder()
 
