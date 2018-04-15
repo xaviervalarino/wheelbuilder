@@ -3,7 +3,7 @@ WHEELBUILDER
 A streaming static site generator
 
 SYNOPSIS
-    wb [input file]... [options]...
+    wb [options] [input file]...
 
 OPTIONS
     -h, --help      Show this message
@@ -12,9 +12,11 @@ OPTIONS
     -v, --version   Output version information and exit
 
 EXAMPLES
-    cat file.md | wb > file.html
+    Convert markdown file to HTML, stream to standard output:
+        wb file.md
 
-    wb file.md -t ./templates/ -o ./dest/
+    Specify templates and output to destination directory:
+        wb file.md -t ./templates/ -o ./dest/
 
-    wb 'src/**/*.md' -t ./templates -o ./dest/
-
+    Convert multiple markdown files and output to destination:
+        wb 'src/**/*.md' -t ./templates -o ./dest/

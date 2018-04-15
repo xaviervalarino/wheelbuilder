@@ -3,26 +3,28 @@ A streaming static site generator
 
 ## Usage
 ```
+
 WHEELBUILDER
 A streaming static site generator
 
 SYNOPSIS
-    wb [input file]... [options]...
+    wb [options] [input file]...
 
 OPTIONS
-    -h, --help     Show this message
-    -o, --out-dir  Directory where files are outputted
-    -v, --version  Output version information and exit
+    -h, --help      Show this message
+    -o, --out-dir   Write files to this directory
+    -t, --templates Use templates in this directory
+    -v, --version   Output version information and exit
 
 EXAMPLES
-    # Convert markdown file to HTML, stream to standard output
-    wb file.md
+    Convert markdown file to HTML, stream to standard output:
+        wb file.md
 
-    # Specify templates and output to destination directory
-    wb file.md -t ./templates/ -o ./dest/
+    Specify templates and output to destination directory:
+        wb file.md -t ./templates/ -o ./dest/
 
-    # Convert multiple markdown files and output to destination
-    wb 'src/**/*.md' -t ./templates -o ./dest/
+    Convert multiple markdown files and output to destination:
+        wb 'src/**/*.md' -t ./templates -o ./dest/
 
 ```
 
